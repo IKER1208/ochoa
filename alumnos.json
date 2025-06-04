@@ -1,0 +1,18 @@
+[
+    {
+        "tipo": "alumno",
+        "nombre": "Enrique",
+        "apellido": "Guereca",
+        "edad": 20,
+        "matricula": "23170045",
+        "promedio": 9.3
+    },
+    {
+        "tipo": "alumno",
+        "nombre": "iker",
+        "apellido": "flores",
+        "edad": 20,
+        "matricula": "23170032",
+        "promedio": 10
+    }
+]

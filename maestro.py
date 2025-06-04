@@ -17,7 +17,31 @@ class Maestro(Arreglo):
             self.es_arreglo = False
     def to_json(self):
         with open("maestros.json", 'w') as file:
-         json.dump(self.to_dict(), file, indent=4)
+            json.dump(self.to_dict(), file, indent=4)
+
+    def read_json(self):
+        with open("maestros.json", 'r') as file:
+            data = json.load(file)
+            return self._dict_to_object(data)
+
+    def _dict_to_object(self, data):
+        if not data:
+            return None
+
+        if isinstance(data, list):
+            maestro_arreglo = Maestro()
+            for item in data:
+                maestro = maestro_arreglo._dict_to_object(item)                
+                maestro_arreglo.agregar(maestro)
+            return maestro_arreglo
+        else:
+            return Maestro(
+                data['nombre'],
+                data['apellido'],
+                data['edad'],
+                data['matricula'],
+                data['especialidad']
+            )
 
     def to_dict(self):
         if self.es_arreglo:
@@ -39,17 +63,29 @@ class Maestro(Arreglo):
 if __name__ == "__main__":
     MAESTRO = Maestro("Ramiro", "Esquivel", 40, "1", "Android")
     MAESTRO2 = Maestro("Jesus", "Burciaga", 40, "2", "iOS")
-    MAESTRO3 = Maestro("Juan", "Perez", 20, "23170120", 10)
-    '''print("=== Maestro individual ===")
-    print(MAESTRO.to_dict())
-    print("\n=== Maestro individual 2 ===")
-    print(MAESTRO2.to_dict())
-    '''
+    MAESTRO3 = Maestro("Juan", "Perez", 20, "23170120", "Web")
+
     print("\n=== Lista de Maestros ===")
     maestros = Maestro()
-    maestros.agregar(MAESTRO)
-    maestros.agregar(MAESTRO2)
-    maestros.agregar(MAESTRO3)
-    #maestros.eliminar(MAESTRO2)
+    maestros.agregar(MAESTRO, MAESTRO2, MAESTRO3)
     print(maestros.to_dict())
     maestros.to_json()
+
+    print("\n=== Maestros Recuperados ===")
+    maestro_recuperado = Maestro().read_json()
+    if maestro_recuperado.es_arreglo:
+        for maestro in maestro_recuperado.items:
+            print(f"\nNombre: {maestro.nombre} {maestro.apellido}")
+            print(f"Edad: {maestro.edad}")
+            print(f"Matrícula: {maestro.matricula}")
+            print(f"Especialidad: {maestro.especialidad}")
+    else:
+        print(f"\nNombre: {maestro_recuperado.nombre} {maestro_recuperado.apellido}")
+        print(f"Edad: {maestro_recuperado.edad}")
+        print(f"Matrícula: {maestro_recuperado.matricula}")
+        print(f"Especialidad: {maestro_recuperado.especialidad}")
+
+    maestro = Maestro()
+    maestro_recuperado = maestro.read_json()
+    maestro = maestro_recuperado
+    maestro.to_json()

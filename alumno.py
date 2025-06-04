@@ -17,7 +17,37 @@ class Alumno(Arreglo):
             self.es_arreglo = False
     def to_json(self):
         with open("alumnos.json", 'w') as file:
-         json.dump(self.to_dict(), file, indent=4)
+            json.dump(self.to_dict(), file, indent=4)
+
+    def read_json(self):
+        with open("alumnos.json", 'r') as file:
+            data = json.load(file)
+            return self._dict_to_object(data)
+
+    def _dict_to_object(self, data):
+        if not data:
+            return None
+
+        if isinstance(data, list):
+            alumno_arreglo = Alumno()
+            for item in data:
+                alumno = Alumno(
+                    item['nombre'],
+                    item['apellido'],
+                    item['edad'],
+                    item['matricula'],
+                    item['promedio']
+                )
+                alumno_arreglo.agregar(alumno)
+            return alumno_arreglo
+        else:
+            return Alumno(
+                data['nombre'],
+                data['apellido'],
+                data['edad'],
+                data['matricula'],
+                data['promedio']
+            )
 
     def to_dict(self):
         if self.es_arreglo:

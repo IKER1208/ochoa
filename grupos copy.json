@@ -1,0 +1,40 @@
+[
+    {
+        "tipo": "grupo",
+        "nombre": "Desarrollo M\u00f3vil",
+        "maestro": {
+            "tipo": "maestro",
+            "nombre": "Ramiro",
+            "apellido": "Esquivel",
+            "edad": 40,
+            "matricula": "1",
+            "especialidad": "Android"
+        },
+        "alumnos": [
+            {
+                "tipo": "alumno",
+                "nombre": "Iker",
+                "apellido": "Flores",
+                "edad": 18,
+                "matricula": "23170032",
+                "promedio": 10
+            },
+            {
+                "tipo": "alumno",
+                "nombre": "Jesus",
+                "apellido": "De la rosa",
+                "edad": 19,
+                "matricula": "23170119",
+                "promedio": 10
+            },
+            {
+                "tipo": "alumno",
+                "nombre": "Juan",
+                "apellido": "Perez",
+                "edad": 20,
+                "matricula": "23170120",
+                "promedio": 10
+            }
+        ]
+    }
+]

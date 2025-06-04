@@ -1,0 +1,26 @@
+[
+    {
+        "tipo": "maestro",
+        "nombre": "Ramiro",
+        "apellido": "Esquivel",
+        "edad": 40,
+        "matricula": "1",
+        "especialidad": "Android"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "Jesus",
+        "apellido": "Burciaga",
+        "edad": 40,
+        "matricula": "2",
+        "especialidad": "iOS"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "Juan",
+        "apellido": "Perez",
+        "edad": 20,
+        "matricula": "23170120",
+        "especialidad": "Web"
+    }
+]
