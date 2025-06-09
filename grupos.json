@@ -36,5 +36,27 @@
                 "promedio": 10
             }
         ]
+    },
+    {
+        "tipo": "grupo",
+        "nombre": "hola",
+        "maestro": {
+            "tipo": "maestro",
+            "nombre": "Jesus",
+            "apellido": "Burciaga",
+            "edad": 40,
+            "matricula": "2",
+            "especialidad": "iOS"
+        },
+        "alumnos": [
+            {
+                "tipo": "alumno",
+                "nombre": "iker",
+                "apellido": "flores",
+                "edad": 13,
+                "matricula": "11111",
+                "promedio": 12.0
+            }
+        ]
     }
 ]
