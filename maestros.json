@@ -22,5 +22,13 @@
         "edad": 20,
         "matricula": "23170120",
         "especialidad": "Web"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "iker nuevo",
+        "apellido": "qweqweqw",
+        "edad": 12,
+        "matricula": "12121212121212",
+        "especialidad": "iiii"
     }
 ]

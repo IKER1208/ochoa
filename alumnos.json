@@ -1,18 +1,34 @@
 [
     {
         "tipo": "alumno",
-        "nombre": "iker",
-        "apellido": "flores",
-        "edad": 20,
-        "matricula": "23170032",
-        "promedio": 10
+        "nombre": "Juan",
+        "apellido": "P\u00e9rez",
+        "edad": 22,
+        "matricula": "222222222",
+        "promedio": 9.5
     },
     {
         "tipo": "alumno",
-        "nombre": "iker",
-        "apellido": "flores",
-        "edad": 13,
+        "nombre": "Jose",
+        "apellido": "Garc\u00eda",
+        "edad": 21,
+        "matricula": "1222222222",
+        "promedio": 8.7
+    },
+    {
+        "tipo": "alumno",
+        "nombre": "qwqwq",
+        "apellido": "qwqwq",
+        "edad": 12,
         "matricula": "11111",
+        "promedio": 12.0
+    },
+    {
+        "tipo": "alumno",
+        "nombre": "qwqw",
+        "apellido": "qwqw",
+        "edad": 12,
+        "matricula": "12121",
         "promedio": 12.0
     }
 ]

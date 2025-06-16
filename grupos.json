@@ -4,11 +4,11 @@
         "nombre": "Desarrollo M\u00f3vil",
         "maestro": {
             "tipo": "maestro",
-            "nombre": "Ramiro",
-            "apellido": "Esquivel",
+            "nombre": "Jesus",
+            "apellido": "Burciaga",
             "edad": 40,
-            "matricula": "1",
-            "especialidad": "Android"
+            "matricula": "2",
+            "especialidad": "iOS"
         },
         "alumnos": [
             {
@@ -26,36 +26,50 @@
                 "edad": 19,
                 "matricula": "23170119",
                 "promedio": 10
-            },
-            {
-                "tipo": "alumno",
-                "nombre": "Juan",
-                "apellido": "Perez",
-                "edad": 20,
-                "matricula": "23170120",
-                "promedio": 10
             }
         ]
     },
     {
         "tipo": "grupo",
-        "nombre": "hola",
+        "nombre": "iker",
         "maestro": {
             "tipo": "maestro",
-            "nombre": "Jesus",
-            "apellido": "Burciaga",
+            "nombre": "Ramiro",
+            "apellido": "Esquivel",
             "edad": 40,
-            "matricula": "2",
-            "especialidad": "iOS"
+            "matricula": "1",
+            "especialidad": "Android"
         },
         "alumnos": [
             {
                 "tipo": "alumno",
-                "nombre": "iker",
-                "apellido": "flores",
-                "edad": 13,
-                "matricula": "11111",
+                "nombre": "iker flores",
+                "apellido": "esfdsfs",
+                "edad": 12,
+                "matricula": "121212",
                 "promedio": 12.0
+            }
+        ]
+    },
+    {
+        "tipo": "grupo",
+        "nombre": "iker",
+        "maestro": {
+            "tipo": "maestro",
+            "nombre": "Juan",
+            "apellido": "Perez",
+            "edad": 20,
+            "matricula": "23170120",
+            "especialidad": "Web"
+        },
+        "alumnos": [
+            {
+                "tipo": "alumno",
+                "nombre": "iker de este grupo",
+                "apellido": "dfd",
+                "edad": 12,
+                "matricula": "12222",
+                "promedio": 10.0
             }
         ]
     }
