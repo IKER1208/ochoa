@@ -1,7 +1,7 @@
 import pymongo
 from pymongo.errors import ConnectionFailure
 
-MONGO_URI = "mongodb+srv://admin:admin@myatlasclusteredu.oh7cbmy.mongodb.net/"  # Cambia esto si tu URI es diferente
+MONGO_URI = "mongodb+srv://admin:admin@myatlasclusteredu.oh7cbmy.mongodb.net/" 
 DB_NAME = "escuela"
 
 client = None
