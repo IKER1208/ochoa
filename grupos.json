@@ -72,5 +72,27 @@
                 "promedio": 10.0
             }
         ]
+    },
+    {
+        "tipo": "grupo",
+        "nombre": "iker nuevo mongo",
+        "maestro": {
+            "tipo": "maestro",
+            "nombre": "Ramiro",
+            "apellido": "Esquivel",
+            "edad": 40,
+            "matricula": "1",
+            "especialidad": "Android"
+        },
+        "alumnos": [
+            {
+                "tipo": "alumno",
+                "nombre": "ikkie",
+                "apellido": "qwertyu",
+                "edad": 12,
+                "matricula": "1212121212",
+                "promedio": 10.0
+            }
+        ]
     }
 ]
