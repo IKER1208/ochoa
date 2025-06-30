@@ -25,6 +25,7 @@
     },
     {
         "tipo": "maestro",
+<<<<<<< HEAD
         "nombre": "iker",
         "apellido": "qqq",
         "edad": 12,
@@ -118,5 +119,12 @@
         "edad": 12,
         "matricula": "12121",
         "especialidad": "wrqwreff"
+=======
+        "nombre": "iker nuevo",
+        "apellido": "qweqweqw",
+        "edad": 12,
+        "matricula": "12121212121212",
+        "especialidad": "iiii"
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
     }
 ]

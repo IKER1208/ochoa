@@ -1,9 +1,12 @@
 from alumno import Alumno
 import os
+<<<<<<< HEAD
 import json
 from config_mongo import is_connected, get_collection
 
 PENDIENTES_FILE = "pendientes_alumnos.json"
+=======
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
 
 class MenuAlumnos:
     def __init__(self, alumnos=None):
@@ -14,7 +17,10 @@ class MenuAlumnos:
         else:
             self.alumnos = alumnos
             self.isJson = False
+<<<<<<< HEAD
         self.sincronizar_pendientes()
+=======
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
 
     def cargar_datos(self):
         if not self.isJson:
@@ -27,6 +33,7 @@ class MenuAlumnos:
         except Exception as e:
             print(f"Error al cargar datos: {str(e)}")
 
+<<<<<<< HEAD
     def guardar_datos(self, operacion=None, datos=None):
         if not self.isJson:
             return
@@ -82,6 +89,18 @@ class MenuAlumnos:
         except Exception as e:
             print(f"Error al sincronizar pendientes: {str(e)}")
 
+=======
+    def guardar_datos(self):
+        if not self.isJson:
+            return
+        try:
+           
+                self.alumnos.to_json()
+                print("Datos guardados correctamente.")
+        except Exception as e:
+            print(f"Error al guardar datos: {str(e)}")
+
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
     def mostrar_menu(self):
         while True:
             print("\n--- GESTIÓN DE ALUMNOS ---")
@@ -132,12 +151,22 @@ class MenuAlumnos:
                 matricula=matricula,
                 promedio=promedio
             )
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
             if not hasattr(self.alumnos, 'agregar'):
                 self.alumnos = Alumno()
             self.alumnos.agregar(nuevo_alumno)
             print("Alumno agregado correctamente.")
+<<<<<<< HEAD
             if self.isJson:
                 self.guardar_datos("insertar", nuevo_alumno.__dict__)
+=======
+            
+            if self.isJson:
+                self.guardar_datos()
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
         except ValueError as e:
             print(f"Error en los datos ingresados: {str(e)}")
         except Exception as e:
@@ -151,8 +180,15 @@ class MenuAlumnos:
         try:
             indice = int(input("Seleccione el número del alumno a editar: ")) - 1
             alumno = self.alumnos.items[indice]
+<<<<<<< HEAD
             print("\n--- EDITAR ALUMNO ---")
             print("Deje en blanco los campos que no desea modificar")
+=======
+            
+            print("\n--- EDITAR ALUMNO ---")
+            print("Deje en blanco los campos que no desea modificar")
+            
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
             nombre = input(f"Nombre ({alumno.nombre}): ") or alumno.nombre
             apellido = input(f"Apellido ({alumno.apellido}): ") or alumno.apellido
             edad = input(f"Edad ({alumno.edad}): ")
@@ -160,14 +196,25 @@ class MenuAlumnos:
             matricula = input(f"Matrícula ({alumno.matricula}): ") or alumno.matricula
             promedio = input(f"Promedio ({alumno.promedio}): ")
             promedio = float(promedio) if promedio else alumno.promedio
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
             alumno.nombre = nombre
             alumno.apellido = apellido
             alumno.edad = edad
             alumno.matricula = matricula
             alumno.promedio = promedio
+<<<<<<< HEAD
             print("Alumno actualizado correctamente.")
             if self.isJson:
                 self.guardar_datos("editar", alumno.__dict__)
+=======
+            
+            print("Alumno actualizado correctamente.")
+            if self.isJson:
+                self.guardar_datos()
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
         except (IndexError, ValueError) as e:
             print(f"Selección no válida: {str(e)}")
 
@@ -180,13 +227,20 @@ class MenuAlumnos:
             indice = int(input("Seleccione el número del alumno a eliminar: ")) - 1
             confirmacion = input(f"¿Está seguro de eliminar a {self.alumnos.items[indice].nombre}? (s/n): ")
             if confirmacion.lower() == 's':
+<<<<<<< HEAD
                 alumno = self.alumnos.items[indice]
+=======
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
                 if not self.alumnos.eliminar(indice=indice):
                     print("No se pudo eliminar el alumno.")
                 else:
                     print("Alumno eliminado correctamente.")
                     if self.isJson:
+<<<<<<< HEAD
                         self.guardar_datos("eliminar", alumno.__dict__)
+=======
+                        self.guardar_datos()
+>>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
         except (IndexError, ValueError) as e:
             print(f"Selección no válida: {str(e)}")
 
