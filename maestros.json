@@ -22,5 +22,101 @@
         "edad": 20,
         "matricula": "23170120",
         "especialidad": "Web"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "iker",
+        "apellido": "qqq",
+        "edad": 12,
+        "matricula": "1222",
+        "especialidad": "pppp"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "qqqq",
+        "apellido": "qwe",
+        "edad": 12,
+        "matricula": "12122",
+        "especialidad": "qwerty"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "iker",
+        "apellido": "ikeer",
+        "edad": 12,
+        "matricula": "12",
+        "especialidad": "pppp"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "dadsad",
+        "apellido": "asdasd",
+        "edad": 123123123,
+        "matricula": "12121212121",
+        "especialidad": "wer"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "iker flores",
+        "apellido": "luaa",
+        "edad": 12,
+        "matricula": "121212",
+        "especialidad": "werg"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "qweqeq",
+        "apellido": "qeewqeq",
+        "edad": 12111111111111111,
+        "matricula": "11111111",
+        "especialidad": "weqe"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "iker",
+        "apellido": "flores",
+        "edad": 12,
+        "matricula": "123",
+        "especialidad": "iker"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "iker",
+        "apellido": "flores",
+        "edad": 12,
+        "matricula": "1234",
+        "especialidad": "qwerty"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "qweq",
+        "apellido": "wewqeqw",
+        "edad": 12,
+        "matricula": "1234",
+        "especialidad": "qwedsasds"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "qeweqweqwe",
+        "apellido": "eweqewq",
+        "edad": 12,
+        "matricula": "23132312",
+        "especialidad": "eqweqwe"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "qwerrew",
+        "apellido": "weqweqew",
+        "edad": 12,
+        "matricula": "1212121",
+        "especialidad": "waewqewqe"
+    },
+    {
+        "tipo": "maestro",
+        "nombre": "qwqwqw",
+        "apellido": "wqwqwq",
+        "edad": 12,
+        "matricula": "12121",
+        "especialidad": "wrqwreff"
     }
 ]

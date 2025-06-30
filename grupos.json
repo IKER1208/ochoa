@@ -1,62 +1,50 @@
 [
     {
         "tipo": "grupo",
-        "nombre": "Desarrollo M\u00f3vil",
+        "nombre": "iker",
         "maestro": {
             "tipo": "maestro",
-            "nombre": "Ramiro",
-            "apellido": "Esquivel",
-            "edad": 40,
-            "matricula": "1",
-            "especialidad": "Android"
-        },
-        "alumnos": [
-            {
-                "tipo": "alumno",
-                "nombre": "Iker",
-                "apellido": "Flores",
-                "edad": 18,
-                "matricula": "23170032",
-                "promedio": 10
-            },
-            {
-                "tipo": "alumno",
-                "nombre": "Jesus",
-                "apellido": "De la rosa",
-                "edad": 19,
-                "matricula": "23170119",
-                "promedio": 10
-            },
-            {
-                "tipo": "alumno",
-                "nombre": "Juan",
-                "apellido": "Perez",
-                "edad": 20,
-                "matricula": "23170120",
-                "promedio": 10
-            }
-        ]
-    },
-    {
-        "tipo": "grupo",
-        "nombre": "hola",
-        "maestro": {
-            "tipo": "maestro",
-            "nombre": "Jesus",
-            "apellido": "Burciaga",
-            "edad": 40,
-            "matricula": "2",
-            "especialidad": "iOS"
+            "nombre": "iker",
+            "apellido": "flores",
+            "edad": 12,
+            "matricula": "1234",
+            "especialidad": "qwerty"
         },
         "alumnos": [
             {
                 "tipo": "alumno",
                 "nombre": "iker",
                 "apellido": "flores",
-                "edad": 13,
-                "matricula": "11111",
-                "promedio": 12.0
+                "edad": 12,
+                "matricula": "1234",
+                "promedio": 10.0
             }
         ]
+    },
+    {
+        "tipo": "grupo",
+        "nombre": "iker",
+        "maestro": {
+            "tipo": "maestro",
+            "nombre": "qweq",
+            "apellido": "wewqeqw",
+            "edad": 12,
+            "matricula": "1234",
+            "especialidad": "qwedsasds"
+        },
+        "alumnos": []
+    },
+    {
+        "tipo": "grupo",
+        "nombre": "dnjfdgs",
+        "maestro": {
+            "tipo": "maestro",
+            "nombre": "qeweqweqwe",
+            "apellido": "eweqewq",
+            "edad": 12,
+            "matricula": "23132312",
+            "especialidad": "eqweqwe"
+        },
+        "alumnos": []
     }
 ]
