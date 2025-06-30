@@ -1,4 +1,6 @@
 from grupo import Grupo
+from alumno import Alumno
+from maestro import Maestro
 from menu_alumnos import MenuAlumnos
 from menu_maestros import MenuMaestros
 import os
@@ -8,14 +10,10 @@ class MenuGrupos:
     def __init__(self, grupos=None):
         if grupos is None:
             self.grupos = Grupo()
-            self.menu_alumnos = MenuAlumnos()
-            self.menu_maestros = MenuMaestros()
             self.isJson = True
             self.cargar_datos()
         else:
             self.grupos = grupos
-            self.menu_alumnos = MenuAlumnos()
-            self.menu_maestros = MenuMaestros()
             self.isJson = False
 
     def cargar_datos(self):
@@ -26,6 +24,14 @@ class MenuGrupos:
                 loaded = Grupo().read_json()
                 if loaded and hasattr(loaded, 'items'):
                     self.grupos = loaded
+            if os.path.exists("alumnos.json"):
+                loaded = Alumno().read_json()
+                if loaded and hasattr(loaded, 'items'):
+                    self.alumnos = loaded
+            if os.path.exists("maestros.json"):
+                loaded = Maestro().read_json()
+                if loaded and hasattr(loaded, 'items'):
+                    self.maestros = loaded
         except Exception as e:
             print(f"Error al cargar datos: {str(e)}")
 
@@ -33,14 +39,10 @@ class MenuGrupos:
         if not self.isJson:
             return
         try:
-            # Guardar siempre en JSON
-            if hasattr(self.grupos, 'to_json'):
-                self.grupos.to_json()
-                print("Datos guardados correctamente en JSON.")
-            # Si hay conexión, guardar también en MongoDB
+            self.grupos.to_json()
+            print("Datos guardados correctamente en JSON.")
             if is_connected():
                 col = get_collection("grupos")
-                # Limpiar la colección y volver a insertar todos los grupos
                 col.delete_many({})
                 for grupo in self.grupos.items:
                     col.insert_one(self.grupo_to_dict(grupo))
@@ -59,18 +61,17 @@ class MenuGrupos:
 
     def mostrar_menu(self):
         while True:
-            print("\n--- GESTIÓN DE GRUPOS ---")
-            print("1. Listar grupos")
-            print("2. Agregar grupo")
-            print("3. Editar grupo")
-            print("4. Eliminar grupo")
-            print("5. Asignar maestro a grupo")
-            print("6. Agregar alumno a grupo")
-            print("7. Eliminar alumno de grupo")
-            print("8. Eliminar maestro de grupo")
-            print("9. Salir")
+            print("\n=== MENU GRUPOS ===")
+            print("1. Ver grupos")
+            print("2. Nuevo grupo")
+            print("3. Cambiar grupo")
+            print("4. Borrar grupo")
+            print("5. Asignar maestro")
+            print("6. Gestionar alumnos")
+            print("7. Gestionar profesores")
+            print("8. Salir")
             
-            opcion = input("Seleccione una opción: ")
+            opcion = input("Opción: ")
             
             if opcion == "1":
                 self.listar_grupos()
@@ -83,73 +84,55 @@ class MenuGrupos:
             elif opcion == "5":
                 self.asignar_maestro_grupo()
             elif opcion == "6":
-                self.agregar_alumno_grupo()
+                self.gestionar_alumno_grupo()
             elif opcion == "7":
-                self.eliminar_alumno_grupo()
+                self.gestionar_profesores()
             elif opcion == "8":
-                self.eliminar_maestro_grupo()
-            elif opcion == "9":
-                print("Saliendo del sistema...")
-                if self.isJson:
-                    self.guardar_datos()
+                print("Adiós")
                 break
             else:
-                print("Opción no válida. Intente nuevamente.")
+                print("Opción inválida")
 
     def listar_grupos(self):
-        print("\n--- LISTA DE GRUPOS ---")
+        print("\n=== GRUPOS ===")
         if not hasattr(self.grupos, 'items') or not self.grupos.items:
-            print("No hay grupos registrados.")
+            print("No hay grupos")
             return
             
         for i, grupo in enumerate(self.grupos.items):
-            print(f"\n{i+1}. Grupo: {grupo.nombre}")
+            print(f"\n{i+1}. {grupo.nombre}")
             if grupo.maestro:
-                print(f"   Maestro: {grupo.maestro.nombre} {grupo.maestro.apellido}")
+                print(f"   Profesor: {grupo.maestro.nombre} {grupo.maestro.apellido}")
             else:
-                print("   Maestro: No asignado")
+                print("   Profesor: Sin asignar")
             
             if hasattr(grupo, 'alumnos') and grupo.alumnos and hasattr(grupo.alumnos, 'items') and grupo.alumnos.items:
-                print("   Alumnos inscritos:")
+                print("   Alumnos:")
                 for alumno in grupo.alumnos.items:
-                    print(f"   - {alumno.nombre} {alumno.apellido} ({alumno.matricula})")
+                    print(f"   - {alumno.nombre} {alumno.apellido}")
             else:
-                print("   No hay alumnos inscritos")
+                print("   Sin alumnos")
 
     def agregar_grupo(self):
-        print("\n--- NUEVO GRUPO ---")
+        print("\n=== NUEVO GRUPO ===")
         try:
-            nombre = input("Nombre del grupo: ")
+            nombre = input("Nombre: ")
             nuevo_grupo = Grupo(nombre=nombre)
-            print("\n--- Asignando un maestro al grupo ---")
-            self.menu_maestros.agregar_maestro()
-            if hasattr(self.menu_maestros.maestros, 'items') and self.menu_maestros.maestros.items:
-                maestro = self.menu_maestros.maestros.items[-1]
-                nuevo_grupo.maestro = maestro
-            else:
-                print("No se pudo asignar el maestro.")
-                return
-            agregar_alumnos = input("¿Deseas agregar alumnos? (s/n): ").lower()
-            if agregar_alumnos == "s":
-                print("\n--- Agregando alumnos al grupo ---")
-                while True:
-                    self.menu_alumnos.agregar_alumno()
-                    if hasattr(self.menu_alumnos.alumnos, 'items') and self.menu_alumnos.alumnos.items:
-                        alumno = self.menu_alumnos.alumnos.items[-1]
-                        if not hasattr(nuevo_grupo, 'alumnos'):
-                            nuevo_grupo.alumnos = self.menu_alumnos.alumnos.__class__()
-                        nuevo_grupo.alumnos.agregar(alumno)
-                    continuar = input("¿Deseas agregar otro alumno? (s/n): ").lower()
-                    if continuar != "s":
-                        break
             if not hasattr(self.grupos, 'agregar'):
                 self.grupos = Grupo()
             self.grupos.agregar(nuevo_grupo)
-            if self.isJson:
-                self.guardar_datos()
-                print("Grupo agregado y guardado en archivo.")
-            else:
-                print("Grupo agregado (modo objeto).")
+            menu_maestros = MenuMaestros()
+            menu_maestros.listar_maestros()
+            maestro_indice = int(input("Número del profesor: ")) - 1
+            maestro = menu_maestros.maestros.items[maestro_indice]
+            nuevo_grupo.maestro = maestro
+            print(f"Profesor asignado")    
+            grupo_creado = self.grupos.items[-1]
+            menu_alumnos = MenuAlumnos(alumnos=grupo_creado.alumnos)
+            menu_alumnos.mostrar_menu()
+            self.alumnos = menu_alumnos.alumnos
+            self.guardar_datos()
+            print("Grupo creado")
         except Exception as e:
             print(f"Error: {str(e)}")
 
@@ -158,36 +141,13 @@ class MenuGrupos:
         if not hasattr(self.grupos, 'items') or not self.grupos.items:
             return
         try:
-            indice = int(input("\nNúmero del grupo a editar: ")) - 1
+            indice = int(input("Número del grupo: ")) - 1
             grupo = self.grupos.items[indice]
-            print("\n--- EDITAR GRUPO ---")
-            print("Deje en blanco los campos que no desea modificar")
-            nombre = input(f"Nombre ({grupo.nombre}): ") or grupo.nombre
-            grupo.nombre = nombre
-            actualizar_maestro = input("¿Deseas actualizar al maestro? (s/n): ").lower()
-            if actualizar_maestro == "s":
-                print("\n--- Actualizando maestro ---")
-                self.menu_maestros.agregar_maestro()
-                if hasattr(self.menu_maestros.maestros, 'items') and self.menu_maestros.maestros.items:
-                    grupo.maestro = self.menu_maestros.maestros.items[-1]
-                else:
-                    print("No se pudo actualizar el maestro, manteniendo el original.")
-            actualizar_alumnos = input("¿Deseas gestionar los alumnos del grupo? (s/n): ").lower()
-            if actualizar_alumnos == "s":
-                print("\n--- Gestionando alumnos del grupo ---")
-                while True:
-                    self.menu_alumnos.agregar_alumno()
-                    if hasattr(self.menu_alumnos.alumnos, 'items') and self.menu_alumnos.alumnos.items:
-                        alumno = self.menu_alumnos.alumnos.items[-1]
-                        if not hasattr(grupo, 'alumnos'):
-                            grupo.alumnos = self.menu_alumnos.alumnos.__class__()
-                        grupo.alumnos.agregar(alumno)
-                    continuar = input("¿Deseas agregar otro alumno? (s/n): ").lower()
-                    if continuar != "s":
-                        break
-            if self.isJson:
-                self.guardar_datos()
-            print("Grupo actualizado correctamente.")
+            print("\n=== CAMBIAR GRUPO ===")
+            nuevo_nombre = input(f"Nuevo nombre ({grupo.nombre}): ") or grupo.nombre
+            grupo.nombre = nuevo_nombre
+            self.guardar_datos()
+            print("Grupo actualizado")
         except (IndexError, ValueError) as e:
             print(f"Error: {str(e)}")
 
@@ -196,13 +156,14 @@ class MenuGrupos:
         if not hasattr(self.grupos, 'items') or not self.grupos.items:
             return
         try:
-            indice = int(input("\nNúmero del grupo a eliminar: ")) - 1
-            confirmacion = input(f"¿Eliminar grupo {self.grupos.items[indice].nombre}? (s/n): ")
+            indice = int(input("Número del grupo: ")) - 1
+            confirmacion = input(f"¿Borrar grupo {self.grupos.items[indice].nombre}? (s/n): ")
             if confirmacion.lower() == 's':
-                self.grupos.eliminar(indice=indice)
-                if self.isJson:
-                    self.guardar_datos()
-                print("Grupo eliminado correctamente.")
+                if not self.grupos.eliminar(indice=indice):
+                    print("No se pudo borrar")
+                else:
+                    print("Grupo borrado")
+            self.guardar_datos()
         except (IndexError, ValueError) as e:
             print(f"Error: {str(e)}")
 
@@ -211,80 +172,37 @@ class MenuGrupos:
         if not hasattr(self.grupos, 'items') or not self.grupos.items:
             return
         try:
-            grupo_indice = int(input("\nNúmero del grupo: ")) - 1
+            grupo_indice = int(input("Número del grupo: ")) - 1
             grupo = self.grupos.items[grupo_indice]
-            print("\n--- MAESTROS ---")
-            self.menu_maestros.listar_maestros()
-            maestro_indice = int(input("\nNúmero del maestro: ")) - 1
-            maestro = self.menu_maestros.maestros.items[maestro_indice]
+            menu_maestros = MenuMaestros()
+            menu_maestros.listar_maestros()
+            maestro_indice = int(input("Número del profesor: ")) - 1
+            maestro = menu_maestros.maestros.items[maestro_indice]
             grupo.maestro = maestro
-            print(f"Maestro {maestro.nombre} asignado")
-            if self.isJson:
-                self.guardar_datos()
+            self.guardar_datos()
+            print("Profesor asignado")
         except (IndexError, ValueError) as e:
             print(f"Error: {str(e)}")
 
-    def agregar_alumno_grupo(self):
+    def gestionar_alumno_grupo(self):
         self.listar_grupos()
         if not hasattr(self.grupos, 'items') or not self.grupos.items:
             return
         try:
-            grupo_indice = int(input("\nNúmero del grupo: ")) - 1
+            grupo_indice = int(input("Número del grupo: ")) - 1
             grupo = self.grupos.items[grupo_indice]
-            print("\n--- ALUMNOS ---")
-            self.menu_alumnos.listar_alumnos()
-            alumno_indice = int(input("\nNúmero del alumno: ")) - 1
-            alumno = self.menu_alumnos.alumnos.items[alumno_indice]
-            if not hasattr(grupo, 'alumnos'):
-                grupo.alumnos = self.menu_alumnos.alumnos.__class__()
-            grupo.alumnos.agregar(alumno)
-            print(f"Alumno {alumno.nombre} agregado")
-            if self.isJson:
-                self.guardar_datos()
+            menu_alumnos = MenuAlumnos(alumnos=self.grupos.items[grupo_indice].alumnos)
+            menu_alumnos.mostrar_menu()
+            self.alumnos = menu_alumnos.alumnos
+            self.guardar_datos()
         except (IndexError, ValueError) as e:
             print(f"Error: {str(e)}")
 
-    def eliminar_alumno_grupo(self):
-        self.listar_grupos()
-        if not hasattr(self.grupos, 'items') or not self.grupos.items:
-            return
-        try:
-            grupo_indice = int(input("\nNúmero del grupo: ")) - 1
-            grupo = self.grupos.items[grupo_indice]
-            if not hasattr(grupo, 'alumnos') or not grupo.alumnos or not hasattr(grupo.alumnos, 'items') or not grupo.alumnos.items:
-                print("No hay alumnos")
-                return
-            print("\nAlumnos en el grupo:")
-            for i, alumno in enumerate(grupo.alumnos.items):
-                print(f"{i+1}. {alumno.nombre} {alumno.apellido} ({alumno.matricula})")
-            alumno_indice = int(input("\nNúmero del alumno: ")) - 1
-            confirmacion = input(f"¿Eliminar a {grupo.alumnos.items[alumno_indice].nombre}? (s/n): ")
-            if confirmacion.lower() == 's':
-                grupo.alumnos.eliminar(indice=alumno_indice)
-                print("Alumno eliminado")
-                if self.isJson:
-                    self.guardar_datos()
-        except (IndexError, ValueError) as e:
-            print(f"Error: {str(e)}")
-
-    def eliminar_maestro_grupo(self):
-        self.listar_grupos()
-        if not hasattr(self.grupos, 'items') or not self.grupos.items:
-            return
-        try:
-            grupo_indice = int(input("\nNúmero del grupo: ")) - 1
-            grupo = self.grupos.items[grupo_indice]
-            if not grupo.maestro:
-                print("No hay maestro")
-                return
-            confirmacion = input(f"¿Eliminar maestro {grupo.maestro.nombre}? (s/n): ")
-            if confirmacion.lower() == 's':
-                grupo.maestro = None
-                print("Maestro eliminado")
-                if self.isJson:
-                    self.guardar_datos()
-        except (IndexError, ValueError) as e:
-            print(f"Error: {str(e)}")
+    def gestionar_profesores(self):
+        menu_maestros = MenuMaestros()
+        menu_maestros.mostrar_menu()
+        self.maestros = menu_maestros.maestros
+        self.guardar_datos()
 
 if __name__ == "__main__":
     app = MenuGrupos()

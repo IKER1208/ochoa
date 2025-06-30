@@ -1,16 +1,9 @@
 [
     {
         "tipo": "grupo",
-        "nombre": "iker",
+        "nombre": "Desarrollo M\u00f3vil",
         "maestro": {
             "tipo": "maestro",
-<<<<<<< HEAD
-            "nombre": "iker",
-            "apellido": "flores",
-            "edad": 12,
-            "matricula": "1234",
-            "especialidad": "qwerty"
-=======
             "nombre": "Jesus",
             "apellido": "Burciaga",
             "edad": 40,
@@ -46,24 +39,15 @@
             "edad": 40,
             "matricula": "1",
             "especialidad": "Android"
->>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
         },
         "alumnos": [
             {
                 "tipo": "alumno",
-<<<<<<< HEAD
-                "nombre": "iker",
-                "apellido": "flores",
-                "edad": 12,
-                "matricula": "1234",
-                "promedio": 10.0
-=======
                 "nombre": "iker flores",
                 "apellido": "esfdsfs",
                 "edad": 12,
                 "matricula": "121212",
                 "promedio": 12.0
->>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
             }
         ]
     },
@@ -72,28 +56,6 @@
         "nombre": "iker",
         "maestro": {
             "tipo": "maestro",
-<<<<<<< HEAD
-            "nombre": "qweq",
-            "apellido": "wewqeqw",
-            "edad": 12,
-            "matricula": "1234",
-            "especialidad": "qwedsasds"
-        },
-        "alumnos": []
-    },
-    {
-        "tipo": "grupo",
-        "nombre": "dnjfdgs",
-        "maestro": {
-            "tipo": "maestro",
-            "nombre": "qeweqweqwe",
-            "apellido": "eweqewq",
-            "edad": 12,
-            "matricula": "23132312",
-            "especialidad": "eqweqwe"
-        },
-        "alumnos": []
-=======
             "nombre": "Juan",
             "apellido": "Perez",
             "edad": 20,
@@ -110,6 +72,5 @@
                 "promedio": 10.0
             }
         ]
->>>>>>> 43f61c1d815adea1547a3ea0b26d18203555a5c5
     }
 ]

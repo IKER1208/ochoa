@@ -1,9 +1,6 @@
 from alumno import Alumno
 import os
-import json
 from config_mongo import is_connected, get_collection
-
-PENDIENTES_FILE = "pendientes_alumnos.json"
 
 class MenuAlumnos:
     def __init__(self, alumnos=None):
@@ -14,7 +11,6 @@ class MenuAlumnos:
         else:
             self.alumnos = alumnos
             self.isJson = False
-        self.sincronizar_pendientes()
 
     def cargar_datos(self):
         if not self.isJson:
@@ -27,72 +23,32 @@ class MenuAlumnos:
         except Exception as e:
             print(f"Error al cargar datos: {str(e)}")
 
-    def guardar_datos(self, operacion=None, datos=None):
+    def guardar_datos(self):
         if not self.isJson:
             return
         try:
+            self.alumnos.to_json()
+            print("Datos guardados correctamente en JSON.")
             if is_connected():
                 col = get_collection("alumnos")
-                if operacion == "insertar":
-                    col.insert_one(datos)
-                elif operacion == "editar":
-                    col.update_one({"matricula": datos["matricula"]}, {"$set": datos})
-                elif operacion == "eliminar":
-                    col.delete_one({"matricula": datos["matricula"]})
-                print("Datos guardados en MongoDB correctamente.")
-                self.sincronizar_pendientes()
+                col.delete_many({})
+                for alumno in self.alumnos.items:
+                    col.insert_one(alumno.__dict__)
+                print("Datos guardados correctamente en MongoDB.")
             else:
-                if hasattr(self.alumnos, 'to_json'):
-                    self.alumnos.to_json()
-                if operacion:
-                    self.registrar_pendiente(operacion, datos)
-                print("No hay conexión a MongoDB. Datos guardados en JSON y operación pendiente registrada.")
+                print("No hay conexión a MongoDB. Solo se guardó en JSON.")
         except Exception as e:
             print(f"Error al guardar datos: {str(e)}")
 
-    def registrar_pendiente(self, operacion, datos):
-        pendientes = []
-        if os.path.exists(PENDIENTES_FILE):
-            with open(PENDIENTES_FILE, "r") as f:
-                pendientes = json.load(f)
-        pendientes.append({"operacion": operacion, "datos": datos})
-        with open(PENDIENTES_FILE, "w") as f:
-            json.dump(pendientes, f)
-
-    def sincronizar_pendientes(self):
-        if not is_connected():
-            return
-        if not os.path.exists(PENDIENTES_FILE):
-            return
-        try:
-            with open(PENDIENTES_FILE, "r") as f:
-                pendientes = json.load(f)
-            col = get_collection("alumnos")
-            for p in pendientes:
-                op = p["operacion"]
-                datos = p["datos"]
-                if op == "insertar":
-                    col.insert_one(datos)
-                elif op == "editar":
-                    col.update_one({"matricula": datos["matricula"]}, {"$set": datos})
-                elif op == "eliminar":
-                    col.delete_one({"matricula": datos["matricula"]})
-            os.remove(PENDIENTES_FILE)
-            print("Operaciones pendientes sincronizadas con MongoDB.")
-        except Exception as e:
-            print(f"Error al sincronizar pendientes: {str(e)}")
-
     def mostrar_menu(self):
         while True:
-            print("\n--- GESTIÓN DE ALUMNOS ---")
-            print("1. Listar alumnos")
-            print("2. Agregar alumno")
+            print("\n=== MENU ALUMNOS ===")
+            print("1. Ver alumnos")
+            print("2. Nuevo alumno")
             print("3. Editar alumno")
-            print("4. Eliminar alumno")
+            print("4. Borrar alumno")
             print("5. Salir")
-            
-            opcion = input("Seleccione una opción: ")
-            
+            opcion = input("Opción: ")
             if opcion == "1":
                 self.listar_alumnos()
             elif opcion == "2":
@@ -102,44 +58,33 @@ class MenuAlumnos:
             elif opcion == "4":
                 self.eliminar_alumno()
             elif opcion == "5":
-                print("Saliendo del sistema...")
+                print("Adiós")
                 break
             else:
-                print("Opción no válida. Intente nuevamente.")
+                print("Opción inválida")
 
     def listar_alumnos(self):
-        print("\n--- LISTA DE ALUMNOS ---")
+        print("\n=== ALUMNOS ===")
         if not hasattr(self.alumnos, 'items') or not self.alumnos.items:
-            print("No hay alumnos registrados.")
+            print("No hay alumnos")
             return
-            
         for i, alumno in enumerate(self.alumnos.items):
             print(f"{i+1}. {alumno.nombre} {alumno.apellido} - {alumno.matricula} - Promedio: {alumno.promedio}")
 
     def agregar_alumno(self):
-        print("\n--- AGREGAR ALUMNO ---")
+        print("\n=== NUEVO ALUMNO ===")
         try:
             nombre = input("Nombre: ")
             apellido = input("Apellido: ")
             edad = int(input("Edad: "))
             matricula = input("Matrícula: ")
             promedio = float(input("Promedio (0-10): "))
-            
-            nuevo_alumno = Alumno(
-                nombre=nombre,
-                apellido=apellido,
-                edad=edad,
-                matricula=matricula,
-                promedio=promedio
-            )
+            nuevo_alumno = Alumno(nombre=nombre, apellido=apellido, edad=edad, matricula=matricula, promedio=promedio)
             if not hasattr(self.alumnos, 'agregar'):
                 self.alumnos = Alumno()
             self.alumnos.agregar(nuevo_alumno)
+            self.guardar_datos()
             print("Alumno agregado correctamente.")
-            if self.isJson:
-                self.guardar_datos("insertar", nuevo_alumno.__dict__)
-        except ValueError as e:
-            print(f"Error en los datos ingresados: {str(e)}")
         except Exception as e:
             print(f"Error al agregar alumno: {str(e)}")
 
@@ -147,12 +92,10 @@ class MenuAlumnos:
         self.listar_alumnos()
         if not hasattr(self.alumnos, 'items') or not self.alumnos.items:
             return
-            
         try:
-            indice = int(input("Seleccione el número del alumno a editar: ")) - 1
+            indice = int(input("Número del alumno: ")) - 1
             alumno = self.alumnos.items[indice]
-            print("\n--- EDITAR ALUMNO ---")
-            print("Deje en blanco los campos que no desea modificar")
+            print("\n=== EDITAR ALUMNO ===")
             nombre = input(f"Nombre ({alumno.nombre}): ") or alumno.nombre
             apellido = input(f"Apellido ({alumno.apellido}): ") or alumno.apellido
             edad = input(f"Edad ({alumno.edad}): ")
@@ -165,36 +108,27 @@ class MenuAlumnos:
             alumno.edad = edad
             alumno.matricula = matricula
             alumno.promedio = promedio
+            self.guardar_datos()
             print("Alumno actualizado correctamente.")
-            if self.isJson:
-                self.guardar_datos("editar", alumno.__dict__)
-        except (IndexError, ValueError) as e:
-            print(f"Selección no válida: {str(e)}")
+        except Exception as e:
+            print(f"Error al editar alumno: {str(e)}")
 
     def eliminar_alumno(self):
         self.listar_alumnos()
         if not hasattr(self.alumnos, 'items') or not self.alumnos.items:
             return
-            
         try:
-            indice = int(input("Seleccione el número del alumno a eliminar: ")) - 1
-            confirmacion = input(f"¿Está seguro de eliminar a {self.alumnos.items[indice].nombre}? (s/n): ")
+            indice = int(input("Número del alumno: ")) - 1
+            confirmacion = input(f"¿Borrar alumno {self.alumnos.items[indice].nombre}? (s/n): ")
             if confirmacion.lower() == 's':
-                alumno = self.alumnos.items[indice]
                 if not self.alumnos.eliminar(indice=indice):
-                    print("No se pudo eliminar el alumno.")
+                    print("No se pudo borrar")
                 else:
-                    print("Alumno eliminado correctamente.")
-                    if self.isJson:
-                        self.guardar_datos("eliminar", alumno.__dict__)
-        except (IndexError, ValueError) as e:
-            print(f"Selección no válida: {str(e)}")
+                    print("Alumno borrado")
+            self.guardar_datos()
+        except Exception as e:
+            print(f"Error al eliminar alumno: {str(e)}")
 
 if __name__ == "__main__":
-    alumno1 = Alumno(nombre="Juan", apellido="Pérez", edad=22, matricula="222222222", promedio=9.5)
-    alumno2 = Alumno(nombre="Jose", apellido="Garcíaa", edad=21, matricula="1222222222", promedio=8.7)
-    alumnos = Alumno()
-    alumnos.agregar(alumno1)
-    alumnos.agregar(alumno2)
-    app = MenuAlumnos(alumnos=alumnos)
+    app = MenuAlumnos()
     app.mostrar_menu() 
